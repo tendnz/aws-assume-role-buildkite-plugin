@@ -11,8 +11,8 @@ main() {
   local tags="${BUILDKITE_PLUGIN_AWS_ASSUME_ROLE_TAGS:-""}"
   local transitive_tag_keys="${BUILDKITE_PLUGIN_AWS_ASSUME_ROLE_TRANSITIVE_TAG_KEYS:-""}"
 
-  [ -n "$tags" ] && tags="--tags ${tags}"
-  [ -n "$transitive_tag_keys" ] && transitive_tag_keys="--transitive_tag_keys ${transitive_tag_keys}"
+  [ -n "$tags" ] && tags="--tags \"${tags}\""
+  [ -n "$transitive_tag_keys" ] && transitive_tag_keys="--transitive_tag_keys \"${transitive_tag_keys}\""
 
   if [[ -n $role && -n $build ]]; then
     echo "~~~ Assuming IAM role $role ..."
