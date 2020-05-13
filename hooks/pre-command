@@ -14,6 +14,8 @@ main() {
   [ -n "$tags" ] && tags="--tags \"${tags}\""
   [ -n "$transitive_tag_keys" ] && transitive_tag_keys="--transitive_tag_keys \"${transitive_tag_keys}\""
 
+  echo "${tags} -> ${$transitive_tag_keys}"
+
   if [[ -n $role && -n $build ]]; then
     echo "~~~ Assuming IAM role $role ..."
     local exports; exports="$(assume_role_credentials "$role" "$build" "$duration" "$tags" "$transitive_tag_keys" | credentials_json_to_shell_exports)"
