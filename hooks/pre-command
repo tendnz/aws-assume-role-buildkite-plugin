@@ -8,10 +8,15 @@ main() {
   local build="${BUILDKITE_BUILD_NUMBER:-}"
   local duration="${BUILDKITE_PLUGIN_AWS_ASSUME_ROLE_DURATION:-3600}"
   local region="${BUILDKITE_PLUGIN_AWS_ASSUME_ROLE_REGION:-""}"
+  local tags="${BUILDKITE_PLUGIN_AWS_ASSUME_ROLE_TAGS:-""}"
+  local transitive_tag_keys="${BUILDKITE_PLUGIN_AWS_ASSUME_ROLE_TRANSITIVE_TAG_KEYS:-""}"
+
+  [ -n "$tags" ] && tags="--tags ${tags}"
+  [ -n "$transitive_tag_keys" ] && transitive_tag_keys="--transitive_tag_keys ${transitive_tag_keys}"
 
   if [[ -n $role && -n $build ]]; then
     echo "~~~ Assuming IAM role $role ..."
-    local exports; exports="$(assume_role_credentials "$role" "$build" "$duration" | credentials_json_to_shell_exports)"
+    local exports; exports="$(assume_role_credentials "$role" "$build" "$duration" "$tags" "$transitive_tag_keys" | credentials_json_to_shell_exports)"
     eval "$exports"
 
     echo "Exported session credentials:"
@@ -43,10 +48,13 @@ assume_role_credentials() {
   local role="$1"
   local build="$2"
   local duration="$3"
+  local tags="$4"
+  local transitive_tag_keys="$5"
+
   aws sts assume-role \
     --role-arn "$role" \
     --role-session-name "aws-assume-role-buildkite-plugin-${build}" \
-    --duration-seconds "$duration" \
+    --duration-seconds "$duration" $tags $transitive_tag_keys \
     --query Credentials
 }
 

@@ -1,6 +1,8 @@
 AWS AssumeRole Buildkite Plugin
 ===============================
 
+Forked from https://github.com/cultureamp/aws-assume-role-buildkite-plugin
+
 A [Buildkite plugin](https://buildkite.com/docs/agent/plugins) to assume an IAM Role before running the build command.
 
 Credentials for the assumed role are placed in the environment as `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SESSION_TOKEN`, where they will be found by standard AWS tools and SDKs.
@@ -44,6 +46,10 @@ The duration (in seconds) to assume the role for. Defaults to 3600 (1 hour).
 ### `region` (optional)
 
 Exports `AWS_REGION` and `AWS_DEFAULT_REGION` with the value you set. If not set the values of AWS_REGION and AWS_DEFAULT_REGION will not be changed.
+
+### `transitive-tags` (optional)
+
+Tags to add when we assume the role - these can be used to pass down some state to sub-role / assumptions
 
 Development
 -----------
