@@ -12,7 +12,7 @@ main() {
   local transitive_tag_keys="${BUILDKITE_PLUGIN_AWS_ASSUME_ROLE_TRANSITIVE_TAG_KEYS:-""}"
 
   [ -n "$tags" ] && tags="--tags \"${tags}\""
-  [ -n "$transitive_tag_keys" ] && transitive_tag_keys="--transitive_tag_keys \"${transitive_tag_keys}\""
+  [ -n "$transitive_tag_keys" ] && transitive_tag_keys="--transitive-tag-keys \"${transitive_tag_keys}\""
 
   echo "${tags} -> ${transitive_tag_keys}"
 
